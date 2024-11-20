@@ -1,0 +1,15 @@
+diff --git a/Cargo.toml b/Cargo.toml
+index 8da1e84..9e011ae 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -6,10 +6,6 @@ license = "GPL-3.0-or-later"
+ 
+ # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+ 
+-[profile.release]
+-lto = true
+-strip = "symbols"
+-
+ [dependencies]
+ clap = { version = "4.5.20", features = ["derive"] }
+ dearrow-browser-api = { version = "1.13.0", registry = "mschae23" }
