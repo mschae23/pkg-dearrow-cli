@@ -1,0 +1,20 @@
+diff --git a/Cargo.toml b/Cargo.toml
+index 6675159..aab5997 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -1,5 +1,5 @@
+ [workspace]
+-members = ["dearrow-browser-server", "dearrow-browser-api", "dearrow-parser", "dearrow-browser-frontend", "error_handling"]
++members = ["dearrow-browser-api", "dearrow-parser", "error_handling"]
+ resolver = "2"
+ 
+ [workspace.package]
+@@ -17,7 +17,7 @@ log = "0.4.21"
+ reqwest = { version = "0.11.23", features = ["json"] }
+ serde = { version = "1.0.194", features = ["derive", "rc"] }
+ serde_json = "1.0.127"
+-sha2 = "=0.11.0-pre.4"
++sha2 = "0.10.8"
+ strum = { version = "0.25.0", features = ["derive"] }
+ 
+ [workspace.lints.clippy]
