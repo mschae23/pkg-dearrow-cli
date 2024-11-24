@@ -5,7 +5,7 @@ pkgver=4.0.0
 pkgrel=1
 pkgdesc='Program to view and vote for DeArrow submissions'
 url='https://github.com/mschae23/dearrow-cli'
-license=('AGPL-3.0-only' 'GPL-3.0-or-later' 'BSD-3-Clause' 'Apache-2.0' 'MIT')
+license=('AGPL-3.0-only')
 makedepends=('cargo')
 depends=('gcc-libs' 'glibc' 'openssl')
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')
@@ -37,7 +37,7 @@ check() {
 package() {
     cd "$pkgname-$pkgver"
     install -Dm0755 -t "$pkgdir/usr/bin/" "target/release/$pkgname"
-    install -Dm644 "COPYING" "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+    install -Dm644 "COPYING" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
     install -Dm644 "README.md" "$pkgdir/usr/share/doc/${pkgname}/README.md"
     install -Dm644 "CHANGELOG.md" "$pkgdir/usr/share/doc/${pkgname}/CHANGELOG.md"
 }
