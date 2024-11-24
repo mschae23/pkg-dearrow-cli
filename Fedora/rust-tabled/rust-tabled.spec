@@ -3,28 +3,100 @@
 %global debug_package %{nil}
 
 %global crate tabled
-%global source_commit 72220a1199dda785f790b33a26931fead52819eb
+%global source_commit a58d58e08799e3e8e6abdf66bf39f4a7a4aab905
+
+%global papergrid_version 0.13.0
+%global tabled_derive_version 0.9.0
+%global tabled_version 0.17.0
 
 Name:           rust-tabled
-Version:        0.16.0
-Release:        2%{?dist}
+Version:        %{tabled_version}
+Release:        1%{?dist}
 Summary:        Easy to use library for pretty print tables of Rust structs and enums
 
 License:        MIT
 URL:            https://crates.io/crates/tabled
-Source:         %{crates_source}
+Source:         https://github.com/zhiburt/tabled/archive/%{source_commit}.tar.gz
 
-# Building examples requires the original workspace setup, which is not given by crates.io's sources.
-# They are not needed, so can be removed.
-Patch:          0001-remove-examples.patch
+# These workspace members are irrelevant for this build (unused by default feature)
+Patch1:         0001-remove-workspace-members.patch
+# During the build, path dependencies are required so they aren't resolved from repositories
+Patch2:         0002-path-dependencies.patch
 
 BuildRequires:  cargo-rpm-macros >= 24
+
+%global crate_instdir_papergrid %{cargo_registry}/papergrid-%{papergrid_version}
+%global crate_instdir_tabled_derive %{cargo_registry}/tabled_derive-%{tabled_derive_version}
+%global crate_instdir_tabled %{cargo_registry}/tabled-%{tabled_version}
 
 %global _description %{expand:
 An easy to use library for pretty print tables of Rust `struct`s and
 `enum`s.}
 
 %description %{_description}
+
+%package     -n rust-papergrid-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n rust-papergrid-devel %{_description}
+
+This package contains library source intended for building other packages which
+use the "papergrid" crate.
+
+%files       -n rust-papergrid-devel
+%license %{crate_instdir_papergrid}/LICENSE-MIT
+%doc %{crate_instdir_papergrid}/README.md
+%{crate_instdir_papergrid}/
+
+%package     -n rust-papergrid+default-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n rust-papergrid+default-devel %{_description}
+
+This package contains library source intended for building other packages which
+use the "default" feature of the "papergrid" crate.
+
+%files       -n rust-papergrid+default-devel
+%ghost %{crate_instdir_papergrid}/Cargo.toml
+
+%package     -n rust-papergrid+std-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n rust-papergrid+std-devel %{_description}
+
+This package contains library source intended for building other packages which
+use the "std" feature of the "papergrid" crate.
+
+%files       -n rust-papergrid+std-devel
+%ghost %{crate_instdir_papergrid}/Cargo.toml
+
+%package        derive-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description    derive-devel %{_description}
+
+This package contains library source intended for building other packages which
+use the "tabled_derive" crate.
+
+%files          derive-devel
+%license %{crate_instdir_tabled_derive}/LICENSE-MIT
+%{crate_instdir_tabled_derive}/
+
+%package     -n %{name}-derive+default-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}-derive+default-devel %{_description}
+
+This package contains library source intended for building other packages which
+use the "default" feature of the "tabled_derive" crate.
+
+%files       -n %{name}-derive+default-devel
+%ghost %{crate_instdir_tabled_derive}/Cargo.toml
 
 %package        devel
 Summary:        %{summary}
@@ -36,9 +108,9 @@ This package contains library source intended for building other packages which
 use the "%{crate}" crate.
 
 %files          devel
-%license %{crate_instdir}/LICENSE-MIT
-%doc %{crate_instdir}/README.md
-%{crate_instdir}/
+%license %{crate_instdir_tabled}/LICENSE-MIT
+%doc %{crate_instdir_tabled}/README.md
+%{crate_instdir_tabled}/
 
 %package     -n %{name}+default-devel
 Summary:        %{summary}
@@ -50,43 +122,7 @@ This package contains library source intended for building other packages which
 use the "default" feature of the "%{crate}" crate.
 
 %files       -n %{name}+default-devel
-%ghost %{crate_instdir}/Cargo.toml
-
-%package     -n %{name}+ansi-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n %{name}+ansi-devel %{_description}
-
-This package contains library source intended for building other packages which
-use the "ansi" feature of the "%{crate}" crate.
-
-%files       -n %{name}+ansi-devel
-%ghost %{crate_instdir}/Cargo.toml
-
-%package     -n %{name}+ansi-str-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n %{name}+ansi-str-devel %{_description}
-
-This package contains library source intended for building other packages which
-use the "ansi-str" feature of the "%{crate}" crate.
-
-%files       -n %{name}+ansi-str-devel
-%ghost %{crate_instdir}/Cargo.toml
-
-%package     -n %{name}+ansitok-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n %{name}+ansitok-devel %{_description}
-
-This package contains library source intended for building other packages which
-use the "ansitok" feature of the "%{crate}" crate.
-
-%files       -n %{name}+ansitok-devel
-%ghost %{crate_instdir}/Cargo.toml
+%ghost %{crate_instdir_tabled}/Cargo.toml
 
 %package     -n %{name}+derive-devel
 Summary:        %{summary}
@@ -98,7 +134,7 @@ This package contains library source intended for building other packages which
 use the "derive" feature of the "%{crate}" crate.
 
 %files       -n %{name}+derive-devel
-%ghost %{crate_instdir}/Cargo.toml
+%ghost %{crate_instdir_tabled}/Cargo.toml
 
 %package     -n %{name}+macros-devel
 Summary:        %{summary}
@@ -110,7 +146,7 @@ This package contains library source intended for building other packages which
 use the "macros" feature of the "%{crate}" crate.
 
 %files       -n %{name}+macros-devel
-%ghost %{crate_instdir}/Cargo.toml
+%ghost %{crate_instdir_tabled}/Cargo.toml
 
 %package     -n %{name}+std-devel
 Summary:        %{summary}
@@ -122,7 +158,7 @@ This package contains library source intended for building other packages which
 use the "std" feature of the "%{crate}" crate.
 
 %files       -n %{name}+std-devel
-%ghost %{crate_instdir}/Cargo.toml
+%ghost %{crate_instdir_tabled}/Cargo.toml
 
 %package     -n %{name}+tabled_derive-devel
 Summary:        %{summary}
@@ -134,12 +170,14 @@ This package contains library source intended for building other packages which
 use the "tabled_derive" feature of the "%{crate}" crate.
 
 %files       -n %{name}+tabled_derive-devel
-%ghost %{crate_instdir}/Cargo.toml
+%ghost %{crate_instdir_tabled}/Cargo.toml
 
 %prep
-%autosetup -n %{crate}-%{version} -p1
+%autosetup -n %{crate}-%{source_commit} -N
+%autopatch -p1 -M1
 %cargo_prep
-rm -rf examples
+# Use path dependencies for build
+%autopatch -p1 -m2 -M2
 
 %generate_buildrequires
 %cargo_generate_buildrequires
@@ -148,9 +186,54 @@ rm -rf examples
 %cargo_build
 %{cargo_license_summary}
 %{cargo_license} > LICENSE.dependencies
+# Unpatch; use version dependencies in installed package
+%{__patch} -p1 -R -i %{_sourcedir}/0002-path-dependencies.patch
 
 %install
-%cargo_install
+%global __awk_removedeps %{__awk} -i inplace -v INPLACE_SUFFIX=.deps '/^\\\[((.+\\\.)?((dev|build)-)?dependencies|features)/{f=1;next} /^\\\[/{f=0}; !f'
+
+# Adapted from %%cargo_install macro, from rust-packaging / cargo-rpm-macros.
+# It doesn't support library workspaces (it expects a single crate), so this
+# is doing what the macro does, but manually for each crate.
+PAPERGRID_REG_DIR=%{buildroot}%{cargo_registry}/papergrid-%{papergrid_version}
+TABLED_DERIVE_REG_DIR=%{buildroot}%{cargo_registry}/tabled_derive-%{tabled_derive_version}
+TABLED_REG_DIR=%{buildroot}%{cargo_registry}/tabled-%{tabled_version}
+
+%{__mkdir} -p $PAPERGRID_REG_DIR
+%{__mkdir} -p $TABLED_DERIVE_REG_DIR
+%{__mkdir} -p $TABLED_REG_DIR
+
+%{__awk_removedeps} Cargo.toml
+cd papergrid
+%{__awk_removedeps} Cargo.toml
+cd ../tabled_derive
+%{__awk_removedeps} Cargo.toml
+cd ../tabled
+%{__awk_removedeps} Cargo.toml
+
+cd ../papergrid
+%{__cargo} package --manifest-path ../Cargo.toml -lp papergrid | grep -w -E -v 'Cargo\..+' | xargs -d '\n' %{__cp} --parents -a -t $PAPERGRID_REG_DIR
+%{__mv} Cargo.toml{.deps,}
+%{__cp} -af Cargo.toml $PAPERGRID_REG_DIR/Cargo.toml
+%{__rm} -f $PAPERGRID_REG_DIR/Cargo.toml.deps
+
+cd ../tabled_derive
+%{__cargo} package --manifest-path ../Cargo.toml -lp tabled_derive | grep -w -E -v 'Cargo\..+' | xargs -d '\n' %{__cp} --parents -a -t $TABLED_DERIVE_REG_DIR
+%{__mv} Cargo.toml{.deps,}
+%{__cp} -af Cargo.toml $TABLED_DERIVE_REG_DIR/Cargo.toml
+%{__rm} -f $TABLED_DERIVE_REG_DIR/Cargo.toml.deps
+
+cd ../tabled
+%{__cargo} package --manifest-path ../Cargo.toml -lp tabled | grep -w -E -v 'Cargo\..+' | xargs -d '\n' %{__cp} --parents -a -t $TABLED_REG_DIR
+%{__mv} Cargo.toml{.deps,}
+%{__cp} -af Cargo.toml $TABLED_REG_DIR/Cargo.toml
+%{__rm} -f $TABLED_REG_DIR/Cargo.toml.deps
+
+cd ..
+%{__mv} Cargo.toml{.deps,}
+echo '{"files":{},"package":""}' > $PAPERGRID_REG_DIR/.cargo-checksum.json
+echo '{"files":{},"package":""}' > $TABLED_DERIVE_REG_DIR/.cargo-checksum.json
+echo '{"files":{},"package":""}' > $TABLED_REG_DIR/.cargo-checksum.json
 
 %if %{with check}
 %check
@@ -159,6 +242,9 @@ rm -rf examples
 %endif
 
 %changelog
+* Sun Nov 24 2024 mschae23 <pkg@mschae23.de> - 0.17.0-1
+- Update to 0.17.0
+
 * Sun Nov 24 2024 mschae23 <pkg@mschae23.de> - 0.16.0-2
 - Rebuild for changed package signing key
 

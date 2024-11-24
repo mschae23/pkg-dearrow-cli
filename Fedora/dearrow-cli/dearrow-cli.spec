@@ -9,8 +9,8 @@
 %global __cargo_requires /usr/bin/env CARGO_REGISTRIES_MSCHAE23_INDEX="sparse+https://mschae23.de/git/api/packages/mschae23/cargo/" /usr/bin/cargo2rpm requires --subpackage --feature=%{name}
 
 Name:           dearrow-cli
-Version:        3.4.1
-Release:        2%{?dist}
+Version:        4.0.0
+Release:        1%{?dist}
 Summary:        Program to view and vote for DeArrow submissions
 
 SourceLicense:  GPL-3.0-or-later
@@ -68,6 +68,9 @@ EOF
 %{_bindir}/dearrow-cli
 
 %changelog
+* Sun Nov 24 2024 mschae23 <pkg@mschae23.de> - 4.0.0-1
+- Update to 4.0.0
+
 * Sun Nov 24 2024 mschae23 <pkg@mschae23.de> - 3.4.1-2
 - Rebuild for changed package signing key
 

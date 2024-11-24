@@ -1,8 +1,8 @@
 diff --git a/Cargo.toml b/Cargo.toml
-index a31580d..28dbafa 100644
+index c00a920..e0d21df 100644
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -53,327 +53,6 @@ targets = ["x86_64-unknown-linux-gnu"]
+@@ -53,332 +53,6 @@ targets = ["x86_64-unknown-linux-gnu"]
  name = "tabled"
  path = "src/lib.rs"
  
@@ -192,6 +192,11 @@ index a31580d..28dbafa 100644
 -    "derive",
 -    "ansi",
 -]
+-
+-[[example]]
+-name = "interactive"
+-path = "examples/interactive.rs"
+-required-features = ["derive"]
 -
 -[[example]]
 -name = "iter_table"

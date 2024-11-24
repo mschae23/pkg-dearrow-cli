@@ -1,0 +1,16 @@
+diff --git a/Cargo.toml b/Cargo.toml
+index 0f5e45e..e6c0b00 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -3,11 +3,4 @@ members = [
+     "papergrid",
+     "tabled",
+     "tabled_derive",
+-    "static_table",
+-    "json_to_table",
+-    "csv_to_table",
+-    "ron_to_table",
+-    "toml_to_table",
+-    "table_to_html",
+-    "testing_table",
+ ]
