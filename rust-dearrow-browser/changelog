@@ -1,0 +1,6 @@
+* Thu Nov 21 22:48 CET 2024 <pkg@mschae23.de> - 1.14.0-1
+- Updated to 1.14.0
+- Completely changed packaging process for DAB, use just one specfile for it instead of one for every crate
+
+* Wed Nov 20 18:21 CET 2024 mschae23 <pkg@mschae23.de> - 1.13.0-1
+- Initial package 

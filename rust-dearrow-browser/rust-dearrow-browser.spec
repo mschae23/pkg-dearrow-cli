@@ -65,18 +65,6 @@ use the "default" feature of the "dearrow-browser-api" crate.
 %files       -n rust-dearrow-browser-api+default-devel
 %ghost %{crate_instdir_api}/Cargo.toml
 
-%package     -n rust-dearrow-browser-api+dearrow-parser-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n rust-dearrow-browser-api+dearrow-parser-devel %{_description}
-
-This package contains library source intended for building other packages which
-use the "dearrow-parser" feature of the "dearrow-browser-api" crate.
-
-%files       -n rust-dearrow-browser-api+dearrow-parser-devel
-%ghost %{crate_instdir_api}/Cargo.toml
-
 %package     -n rust-dearrow-browser-api+sync-devel
 Summary:        %{summary}
 BuildArch:      noarch
