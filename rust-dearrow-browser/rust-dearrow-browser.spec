@@ -13,7 +13,7 @@
 
 Name:           rust-dearrow-browser
 Version:        1.14.0
-Release:        %autorelease
+Release:        2%{?dist}
 Summary:        An explorer for the DeArrow database as a web application
 
 SourceLicense:  AGPL-3.0-only
@@ -258,4 +258,12 @@ EOF
 %endif
 
 %changelog
-%autochangelog
+* Sun Nov 24 2024 mschae23 <pkg@mschae23.de> - 1.14.0-2
+- Rebuild for changed package signing key
+
+* Thu Nov 21 2024 <pkg@mschae23.de> - 1.14.0-1
+- Updated to 1.14.0
+- Completely changed packaging process for DAB, use just one specfile for it instead of one for every crate
+
+* Wed Nov 20 2024 mschae23 <pkg@mschae23.de> - 1.13.0-1
+- Initial package

@@ -10,7 +10,7 @@
 
 Name:           dearrow-cli
 Version:        3.4.1
-Release:        %autorelease
+Release:        2%{?dist}
 Summary:        Program to view and vote for DeArrow submissions
 
 SourceLicense:  GPL-3.0-or-later
@@ -23,6 +23,8 @@ Source:         https://github.com/mschae23/dearrow-cli/archive/refs/tags/v%{ver
 Patch:          0001-downgrade-dependencies.patch
 # Remove customization of `release` build profile
 Patch:          0002-remove-build-opts.patch
+# dearrow-cli's code itself is licensed under GPL v3, but the package as a whole is under AGPL v3
+Patch:          0003-correct-license.patch
 
 BuildRequires:  cargo-rpm-macros >= 26
 
@@ -66,4 +68,8 @@ EOF
 %{_bindir}/dearrow-cli
 
 %changelog
-%autochangelog
+* Sun Nov 24 2024 mschae23 <pkg@mschae23.de> - 3.4.1-2
+- Rebuild for changed package signing key
+
+* Wed Nov 20 2024 mschae23 <pkg@mschae23.de> - 3.4.1-1
+- Initial package

@@ -7,7 +7,7 @@
 
 Name:           rust-tabled
 Version:        0.16.0
-Release:        %autorelease
+Release:        2%{?dist}
 Summary:        Easy to use library for pretty print tables of Rust structs and enums
 
 License:        MIT
@@ -159,4 +159,8 @@ rm -rf examples
 %endif
 
 %changelog
-%autochangelog
+* Sun Nov 24 2024 mschae23 <pkg@mschae23.de> - 0.16.0-2
+- Rebuild for changed package signing key
+
+* Wed Nov 20 2024 mschae23 <pkg@mschae23.de> - 0.16.0-1
+- Initial package

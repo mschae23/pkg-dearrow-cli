@@ -15,8 +15,8 @@ enabled=1
 """
 ```
 As you can see, you'll also need my GPG key at `/etc/pki/mock/RPM-GPG-KEY-MSCHAE23`. You can download it from
-https://keys.openpgp.org (`contact@mschae23.de`). It should have the following fingerprint:
+https://keys.openpgp.org (`pkg@mschae23.de`). It should have the following fingerprint:
 ```
-C7EE 4228 9024 78D4 287D  F13B 872D 8A11 8F7B 2F3B
+60C9 7C71 B476 4DF9 319D  4F02 1315 D06E 9C20 41E8
 ```
 
