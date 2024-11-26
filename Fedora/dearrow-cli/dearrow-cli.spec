@@ -16,7 +16,7 @@ Summary:        Program to view and vote for DeArrow submissions
 SourceLicense:  GPL-3.0-or-later
 License:        AGPL-3.0-only AND GPL-3.0-or-later AND BSD-3-Clause AND Apache-2.0 AND MIT
 
-URL:            https://github.com/mschae23/dearrow-cli
+URL:            https://mschae23.de/git/mschae23/dearrow-cli
 Source:         https://github.com/mschae23/dearrow-cli/archive/refs/tags/v%{version}.tar.gz
 
 # Downgrade dependencies to the last version with an RPM package in Fedora's repositories
