@@ -1,5 +1,5 @@
 ## DeArrow CLI packaging for RPM
-This directory contains the specfiles needed to build [dearrow-cli](https://github.com/mschae23/dearrow-cli)
+This directory contains the specfiles needed to build [dearrow-cli](https://mschae23.de/git/mschae23/dearrow-cli)
 and some of its dependencies for Fedora.
 
 If you want to build them yourself and you are not publishing them in your own RPM repository,
@@ -19,4 +19,3 @@ https://keys.openpgp.org (`pkg@mschae23.de`). It should have the following finge
 ```
 60C9 7C71 B476 4DF9 319D  4F02 1315 D06E 9C20 41E8
 ```
-
