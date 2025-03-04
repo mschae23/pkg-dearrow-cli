@@ -9,7 +9,7 @@
 %global __cargo_requires /usr/bin/env CARGO_REGISTRIES_MSCHAE23_INDEX="sparse+https://mschae23.de/git/api/packages/mschae23/cargo/" /usr/bin/cargo2rpm requires --subpackage --feature=%{name}
 
 Name:           dearrow-cli
-Version:        4.2.0
+Version:        4.3.0
 Release:        1%{?dist}
 Summary:        Program to view and vote for DeArrow submissions
 
@@ -54,6 +54,7 @@ EOF
 
 %install
 %cargo_install
+install -Dpm 0644 doc/dearrow-cli.1 -t %{buildroot}/%{_mandir}/man1/
 
 %if %{with check}
 %check
@@ -66,8 +67,12 @@ EOF
 %doc CHANGELOG.md
 %doc README.md
 %{_bindir}/dearrow-cli
+%{_mandir}/man1/dearrow-cli.1*
 
 %changelog
+* Tue Mar 04 2025 mschae23 <pkg@mschae23.de> - 4.3.0-1
+- Update to 4.3.0
+
 * Sun Feb 16 2025 mschae23 <pkg@mschae23.de> - 4.2.0-1
 - Update to 4.2.0
 
