@@ -1,10 +1,10 @@
 [mschae23]
 name=mschae23 for Fedora $releasever
-baseurl=https://mschae23.de/git/api/packages/mschae23/rpm/fc$releasever
+baseurl=https://code.mschae23.de/api/packages/mschae23/rpm/fc$releasever
 #metadata_expire=6h
 type=rpm
 gpgcheck=1
-gpgkey=https://mschae23.de/git/api/packages/mschae23/rpm/repository.key
+gpgkey=https://code.mschae23.de/api/packages/mschae23/rpm/repository.key
 repo_gpgcheck=1
 enabled=1
 enabled_metadata=1
@@ -12,11 +12,11 @@ countme=1
 
 [mschae23-source]
 name=mschae23 for Fedora $releasever - Source
-baseurl=https://mschae23.de/git/api/packages/mschae23/rpm/fc$releasever-source
+baseurl=https://code.mschae23.de/api/packages/mschae23/rpm/fc$releasever-source
 #metadata_expire=6h
 type=rpm
 gpgcheck=1
-gpgkey=https://mschae23.de/git/api/packages/mschae23/rpm/repository.key
+gpgkey=https://code.mschae23.de/api/packages/mschae23/rpm/repository.key
 repo_gpgcheck=1
 enabled=0
 enabled_metadata=0

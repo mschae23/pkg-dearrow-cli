@@ -8,7 +8,7 @@ make sure you have the following in your `~/.config/mock.cfg`:
 config_opts['dnf.conf'] += """
 [mschae23-fc41]
 name=mschae23 for Fedora 41
-baseurl=https://mschae23.de/git/api/packages/mschae23/rpm/fc41
+baseurl=https://code.mschae23.de/api/packages/mschae23/rpm/fc41
 gpgkey=file:///etc/pki/mock/RPM-GPG-KEY-MSCHAE23
 gpgcheck=1
 enabled=1

@@ -10,13 +10,13 @@
 
 Name:           dearrow-cli
 Version:        4.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Program to view and vote for DeArrow submissions
 
 SourceLicense:  GPL-3.0-or-later
 License:        AGPL-3.0-only AND GPL-3.0-or-later AND BSD-3-Clause AND Apache-2.0 AND MIT
 
-URL:            https://mschae23.de/git/mschae23/dearrow-cli
+URL:            https://code.mschae23.de/mschae23/dearrow-cli
 Source:         https://github.com/mschae23/dearrow-cli/archive/refs/tags/v%{version}.tar.gz
 
 # Downgrade dependencies to the last version with an RPM package in Fedora's repositories
@@ -70,6 +70,9 @@ install -Dpm 0644 doc/dearrow-cli.1 -t %{buildroot}/%{_mandir}/man1/
 %{_mandir}/man1/dearrow-cli.1*
 
 %changelog
+* Sun May 04 2025 mschae23 <pkg@mschae23.de> - 4.3.0-2
+- Update Forgejo links
+
 * Tue Mar 04 2025 mschae23 <pkg@mschae23.de> - 4.3.0-1
 - Update to 4.3.0
 
