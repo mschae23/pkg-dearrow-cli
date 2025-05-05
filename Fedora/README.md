@@ -6,14 +6,15 @@ If you want to build them yourself and you are not publishing them in your own R
 make sure you have the following in your `~/.config/mock.cfg`:
 ```
 config_opts['dnf.conf'] += """
-[mschae23-fc41]
-name=mschae23 for Fedora 41
-baseurl=https://code.mschae23.de/api/packages/mschae23/rpm/fc41
+[mschae23-fc$releasever]
+name=mschae23 for Fedora $releasever
+baseurl=https://code.mschae23.de/api/packages/mschae23/rpm/fc$releasever
 gpgkey=file:///etc/pki/mock/RPM-GPG-KEY-MSCHAE23
 gpgcheck=1
 enabled=1
 """
 ```
+
 As you can see, you'll also need my GPG key at `/etc/pki/mock/RPM-GPG-KEY-MSCHAE23`. You can download it from
 https://keys.openpgp.org (`pkg@mschae23.de`). It should have the following fingerprint:
 ```

@@ -1,12 +1,15 @@
-FEDORA_RELEASE=41
+FEDORA_RELEASE=42
 FEDORA_ARCH=x86_64
 
 FEDPKG=fedpkg
 RPM=rpm
 CURL=curl
 
-build-all: build-mschae23-repos build-rust-dearrow-browser build-dearrow-cli
+build-all: build-mschae23-repos build-rust-dearrow-browser build-rust-tabled_derive build-rust-testing_table build-rust-papergrid build-rust-tabled build-dearrow-cli
 .PHONY: build-all
+
+FEDPKG_FLAGS=
+MOCKBUILD_FLAGS=
 
 FORGEJO_PACKAGE_USER=mschae23
 FORGEJO_USERNAME=$(FORGEJO_PACKAGE_USER)
@@ -16,9 +19,13 @@ FORGEJO_API_ROOT=https://code.mschae23.de
 FORGEJO_UPLOAD_PATH=$(FORGEJO_API_ROOT)/api/packages/$(FORGEJO_PACKAGE_USER)/rpm/fc$(FEDORA_RELEASE)/upload
 
 define PACKAGES
-$(eval $(call package_template,mschae23-repos,mschae23-repos,mschae23-repos,41,2,noarch)) \
-$(eval $(call package_template,rust-dearrow-browser,rust-dearrow-browser,rust-dearrow-browser,1.14.0,2,src)) \
-$(eval $(call package_template,dearrow-cli,dearrow-cli,dearrow-cli,4.3.0,2,$(FEDORA_ARCH)))
+$(eval $(call package_template,mschae23-repos,mschae23-repos,42,1,noarch))\
+$(eval $(call package_template,rust-dearrow-browser,rust-dearrow-browser-api-devel,1.14.0,2,noarch))\
+$(eval $(call package_template,rust-tabled_derive,rust-tabled_derive-devel,0.11.0,1,noarch))\
+$(eval $(call package_template,rust-testing_table,rust-testing_table-devel,0.3.0,1,noarch))\
+$(eval $(call package_template,rust-papergrid,rust-papergrid-devel,0.15.0,1,noarch))\
+$(eval $(call package_template,rust-tabled,rust-tabled-devel,0.19.0,1,noarch))\
+$(eval $(call package_template,dearrow-cli,dearrow-cli,4.3.0,3,$(FEDORA_ARCH)))
 endef
 
 publish-dearrow-cli: build-dearrow-cli
@@ -38,6 +45,43 @@ publish-rust-dearrow-browser: build-rust-dearrow-browser
 	$(FORGEJO_PUBLISH)$(rust-dearrow-browser_rpm_target_dir)/rust-error-handling+default-devel-$(rust-dearrow-browser_package_version)-$(rust-dearrow-browser_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
 .PHONY: publish-rust-dearrow-browser
 
+publish-rust-tabled: build-rust-tabled
+	$(FORGEJO_PUBLISH)$(rust-tabled_rpm_target_dir)/rust-tabled-devel-$(rust-tabled_package_version)-$(rust-tabled_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-tabled_rpm_target_dir)/rust-tabled+default-devel-$(rust-tabled_package_version)-$(rust-tabled_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-tabled_rpm_target_dir)/rust-tabled+std-devel-$(rust-tabled_package_version)-$(rust-tabled_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-tabled_rpm_target_dir)/rust-tabled+derive-devel-$(rust-tabled_package_version)-$(rust-tabled_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-tabled_rpm_target_dir)/rust-tabled+ansi-devel-$(rust-tabled_package_version)-$(rust-tabled_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-tabled_rpm_target_dir)/rust-tabled+ansi-str-devel-$(rust-tabled_package_version)-$(rust-tabled_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-tabled_rpm_target_dir)/rust-tabled+ansitok-devel-$(rust-tabled_package_version)-$(rust-tabled_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-tabled_rpm_target_dir)/rust-tabled+macros-devel-$(rust-tabled_package_version)-$(rust-tabled_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-tabled_rpm_target_dir)/rust-tabled+assert-devel-$(rust-tabled_package_version)-$(rust-tabled_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-tabled_rpm_target_dir)/rust-tabled+tabled_derive-devel-$(rust-tabled_package_version)-$(rust-tabled_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-tabled_rpm_target_dir)/rust-tabled+testing_table-devel-$(rust-tabled_package_version)-$(rust-tabled_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+.PHONY: publish-rust-tabled
+
+publish-rust-papergrid: build-rust-papergrid
+	$(FORGEJO_PUBLISH)$(rust-papergrid_rpm_target_dir)/rust-papergrid-devel-$(rust-papergrid_package_version)-$(rust-papergrid_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-papergrid_rpm_target_dir)/rust-papergrid+default-devel-$(rust-papergrid_package_version)-$(rust-papergrid_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-papergrid_rpm_target_dir)/rust-papergrid+std-devel-$(rust-papergrid_package_version)-$(rust-papergrid_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-papergrid_rpm_target_dir)/rust-papergrid+ansi-devel-$(rust-papergrid_package_version)-$(rust-papergrid_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-papergrid_rpm_target_dir)/rust-papergrid+ansi-str-devel-$(rust-papergrid_package_version)-$(rust-papergrid_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-papergrid_rpm_target_dir)/rust-papergrid+ansitok-devel-$(rust-papergrid_package_version)-$(rust-papergrid_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-papergrid_rpm_target_dir)/rust-papergrid+ahash-devel-$(rust-papergrid_package_version)-$(rust-papergrid_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+.PHONY: publish-rust-papergrid
+
+publish-rust-testing_table: build-rust-testing_table
+	$(FORGEJO_PUBLISH)$(rust-testing_table_rpm_target_dir)/rust-testing_table-devel-$(rust-testing_table_package_version)-$(rust-testing_table_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-testing_table_rpm_target_dir)/rust-testing_table+default-devel-$(rust-testing_table_package_version)-$(rust-testing_table_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-testing_table_rpm_target_dir)/rust-testing_table+ansi-devel-$(rust-testing_table_package_version)-$(rust-testing_table_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-testing_table_rpm_target_dir)/rust-testing_table+ansitok-devel-$(rust-testing_table_package_version)-$(rust-testing_table_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-testing_table_rpm_target_dir)/rust-testing_table+std-devel-$(rust-testing_table_package_version)-$(rust-testing_table_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+.PHONY: publish-rust-testing_table
+
+publish-rust-tabled_derive: build-rust-tabled_derive
+	$(FORGEJO_PUBLISH)$(rust-tabled_derive_rpm_target) $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-tabled_derive_rpm_target_dir)/rust-tabled_derive+default-devel-$(rust-tabled_derive_package_version)-$(rust-tabled_derive_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+.PHONY: publish-rust-tabled_derive
+
 publish-mschae23-repos: build-mschae23-repos
 	$(FORGEJO_PUBLISH)$(mschae23-repos_rpm_target) $(FORGEJO_UPLOAD_PATH)
 .PHONY: publish-mschae23-repos
@@ -45,33 +89,32 @@ publish-mschae23-repos: build-mschae23-repos
 ## Everything below is generic
 
 define rpm_target_dir
-$(let spec_dir spec_name package_version package_release,$(1) $(2) $(3) $(4),$\
-$(spec_dir)/results_$(spec_name)/$(package_version)/$(package_release).fc$(FEDORA_RELEASE))
+$(let package_name package_version package_release,$(1) $(2) $(3),$\
+$(package_name)/results_$(package_name)/$(package_version)/$(package_release).fc$(FEDORA_RELEASE))
 endef
 
 define rpm_target
-$(let spec_dir spec_name package_name package_version package_release package_arch,$(1) $(2) $(3) $(4) $(5) $(6),$\
-$(call rpm_target_dir,$(spec_dir),$(spec_name),$(package_version),$(package_release))/$(package_name)-$(package_version)-$(package_release).fc$(FEDORA_RELEASE).$(package_arch).rpm)
+$(let package_name built_package_name package_version package_release package_arch,$(1) $(2) $(3) $(4) $(5),$\
+$(call rpm_target_dir,$(package_name),$(package_version),$(package_release))/$(built_package_name)-$(package_version)-$(package_release).fc$(FEDORA_RELEASE).$(package_arch).rpm)
 endef
 
 define package_template
-$(1)_spec_dir := $(1)
-$(1)_spec_name := $(2)
-$(1)_package_name := $(3)
-$(1)_package_version := $(4)
-$(1)_package_release := $(5)
-$(1)_package_arch := $(6)
-$(1)_rpm_target_dir := $$(call rpm_target_dir,$$($(1)_spec_dir),$$($(1)_spec_name),$$($(1)_package_version),$$($(1)_package_release))
-$(1)_rpm_target := $$(call rpm_target,$$($(1)_spec_dir),$$($(1)_spec_name),$$($(1)_package_name),$$($(1)_package_version),$$($(1)_package_release),$$($(1)_package_arch))
+$(1)_package_name := $(1)
+$(1)_built_package_name := $(2)
+$(1)_package_version := $(3)
+$(1)_package_release := $(4)
+$(1)_package_arch := $(5)
+$(1)_rpm_target_dir := $$(call rpm_target_dir,$$($(1)_package_name),$$($(1)_package_version),$$($(1)_package_release))
+$(1)_rpm_target := $$(call rpm_target,$$($(1)_package_name),$$($(1)_built_package_name),$$($(1)_package_version),$$($(1)_package_release),$$($(1)_package_arch))
 
-$$($(1)_rpm_target): $$($(1)_spec_dir)/$$($(1)_spec_name).spec
-	$(FEDPKG) --path ./$$($(1)_spec_dir)/ --release f$(FEDORA_RELEASE) mockbuild
-	shopt -s nullglob; $(RPM) --addsign $$($(1)_spec_dir)/results_$$($(1)_spec_name)/$$($(1)_package_version)/$$($(1)_package_release).fc$(FEDORA_RELEASE)/*-$$($(1)_package_version)-$$($(1)_package_release).fc$(FEDORA_RELEASE).*.rpm
+$$($(1)_rpm_target): $$($(1)_package_name)/$$($(1)_package_name).spec
+	$(FEDPKG) $(FEDPKG_FLAGS) --path ./$$($(1)_package_name)/ --release f$(FEDORA_RELEASE) mockbuild $(MOCKBUILD_FLAGS)
+	shopt -s nullglob; $(RPM) --addsign $$($(1)_package_name)/results_$$($(1)_package_name)/$$($(1)_package_version)/$$($(1)_package_release).fc$(FEDORA_RELEASE)/*-$$($(1)_package_version)-$$($(1)_package_release).fc$(FEDORA_RELEASE).*.rpm
 
-$$($(1)_spec_dir)/$$($(1)_spec_name).spec: $(wildcard $$($(1)_spec_dir)/*.patch)
+$$($(1)_package_name)/$$($(1)_package_name).spec: $(wildcard $$($(1)_package_name)/*.patch)
 
-build-$$($(1)_spec_name): $$($(1)_rpm_target)
-.PHONY: build-$$($(1)_spec_name)
+build-$$($(1)_package_name): $$($(1)_rpm_target)
+.PHONY: build-$$($(1)_package_name)
 endef
 
 $(foreach package,$(PACKAGES),$(package))

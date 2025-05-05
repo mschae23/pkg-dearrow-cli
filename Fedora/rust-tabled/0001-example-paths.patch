@@ -1,0 +1,13 @@
+diff --git a/examples/table_width_2.rs b/examples/table_width_2.rs
+index 029d83a..34cdbc9 100644
+--- a/examples/table_width_2.rs
++++ b/examples/table_width_2.rs
+@@ -4,7 +4,7 @@ use tabled::{
+ };
+
+ fn main() {
+-    let readme_text = include_str!("../../CHANGELOG.md");
++    let readme_text = include_str!("../README.md");
+     let lines = readme_text.lines().filter(|s| !s.is_empty()).enumerate();
+
+     let mut table = Table::new(lines);

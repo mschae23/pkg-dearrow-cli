@@ -1,0 +1,11 @@
+diff --git a/Cargo.toml b/Cargo.toml
+index 7eb6632..d7e828f 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -108,5 +108,5 @@ version = "0.6"
+ version = "0.2"
+
+ [dev-dependencies.testing_table]
+-version = "0.2"
++version = "0.3"
+ features = ["ansi"]
