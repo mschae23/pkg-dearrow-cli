@@ -5,7 +5,7 @@ FEDPKG=fedpkg
 RPM=rpm
 CURL=curl
 
-build-all: build-mschae23-repos build-rust-dearrow-browser build-rust-tabled_derive build-rust-testing_table build-rust-papergrid build-rust-tabled build-dearrow-cli
+build-all:
 .PHONY: build-all
 
 FEDPKG_FLAGS=
@@ -13,24 +13,25 @@ MOCKBUILD_FLAGS=
 
 FORGEJO_PACKAGE_USER=mschae23
 FORGEJO_USERNAME=$(FORGEJO_PACKAGE_USER)
-FORGEJO_PUBLISH_FLAG=--upload-file #
+# FORGEJO_PUBLISH_FLAG=--upload-file #
+FORGEJO_PUBLISH_FLAG=-X PUT -F upload=@
 FORGEJO_PUBLISH={ echo -n 'user = "$(FORGEJO_USERNAME):'; cat $(FORGEJO_PASSWORD_FILE); echo '"'; } | $(CURL) -K - -w '\n' $(FORGEJO_PUBLISH_FLAG)
 FORGEJO_API_ROOT=https://code.mschae23.de
 FORGEJO_UPLOAD_PATH=$(FORGEJO_API_ROOT)/api/packages/$(FORGEJO_PACKAGE_USER)/rpm/fc$(FEDORA_RELEASE)/upload
+FORGEJO_SOURCE_UPLOAD_PATH=$(FORGEJO_API_ROOT)/api/packages/$(FORGEJO_PACKAGE_USER)/rpm/fc$(FEDORA_RELEASE)-source/upload
 
 define PACKAGES
-$(eval $(call package_template,mschae23-repos,mschae23-repos,42,1,noarch))\
-$(eval $(call package_template,rust-dearrow-browser,rust-dearrow-browser-api-devel,1.14.0,2,noarch))\
-$(eval $(call package_template,rust-tabled_derive,rust-tabled_derive-devel,0.11.0,1,noarch))\
-$(eval $(call package_template,rust-testing_table,rust-testing_table-devel,0.3.0,1,noarch))\
-$(eval $(call package_template,rust-papergrid,rust-papergrid-devel,0.15.0,1,noarch))\
-$(eval $(call package_template,rust-tabled,rust-tabled-devel,0.19.0,1,noarch))\
-$(eval $(call package_template,dearrow-cli,dearrow-cli,4.3.0,3,$(FEDORA_ARCH)))
+$(eval $(call package_template,mschae23-repos,mschae23-repos,mschae23-repos,42,1,noarch))\
+$(eval $(call package_template,rust-dearrow-browser,rust-dearrow-browser,rust-dearrow-browser-api-devel,1.14.0,2,noarch))\
+$(eval $(call package_template,rust-tabled_derive,rust-tabled_derive,rust-tabled_derive-devel,0.11.0,1,noarch))\
+$(eval $(call package_template,rust-testing_table,rust-testing_table,rust-testing_table-devel,0.3.0,1,noarch))\
+$(eval $(call package_template,rust-papergrid,rust-papergrid,rust-papergrid-devel,0.15.0,1,noarch))\
+$(eval $(call package_template,rust-tabled,rust-tabled,rust-tabled-devel,0.19.0,1,noarch))\
+$(eval $(call package_template,dearrow-cli,dearrow-cli,dearrow-cli,4.3.0,3,$(FEDORA_ARCH)))
 endef
 
-publish-dearrow-cli: build-dearrow-cli
-	$(FORGEJO_PUBLISH)$(dearrow-cli_rpm_target) $(FORGEJO_UPLOAD_PATH)
-.PHONY: publish-dearrow-cli
+define PUBLISH_TARGETS
+$(call publish_template,dearrow-cli)
 
 publish-rust-dearrow-browser: build-rust-dearrow-browser
 	$(FORGEJO_PUBLISH)$(rust-dearrow-browser_rpm_target_dir)/rust-dearrow-browser-api-devel-$(rust-dearrow-browser_package_version)-$(rust-dearrow-browser_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
@@ -85,36 +86,40 @@ publish-rust-tabled_derive: build-rust-tabled_derive
 publish-mschae23-repos: build-mschae23-repos
 	$(FORGEJO_PUBLISH)$(mschae23-repos_rpm_target) $(FORGEJO_UPLOAD_PATH)
 .PHONY: publish-mschae23-repos
+endef
 
 ## Everything below is generic
 
-define rpm_target_dir
-$(let package_name package_version package_release,$(1) $(2) $(3),$\
-$(package_name)/results_$(package_name)/$(package_version)/$(package_release).fc$(FEDORA_RELEASE))
-endef
-
-define rpm_target
-$(let package_name built_package_name package_version package_release package_arch,$(1) $(2) $(3) $(4) $(5),$\
-$(call rpm_target_dir,$(package_name),$(package_version),$(package_release))/$(built_package_name)-$(package_version)-$(package_release).fc$(FEDORA_RELEASE).$(package_arch).rpm)
-endef
+rpm_target_dir = $(1)/results_$$($(1)_package_name)/$$($(1)_package_version)/$$($(1)_package_release).fc$(FEDORA_RELEASE)
+rpm_target = $(call rpm_target_dir,$(1))/$$($(1)_built_package_name)-$$($(1)_package_version)-$$($(1)_package_release).fc$(FEDORA_RELEASE).$$($(1)_package_arch).rpm
 
 define package_template
-$(1)_package_name := $(1)
-$(1)_built_package_name := $(2)
-$(1)_package_version := $(3)
-$(1)_package_release := $(4)
-$(1)_package_arch := $(5)
-$(1)_rpm_target_dir := $$(call rpm_target_dir,$$($(1)_package_name),$$($(1)_package_version),$$($(1)_package_release))
-$(1)_rpm_target := $$(call rpm_target,$$($(1)_package_name),$$($(1)_built_package_name),$$($(1)_package_version),$$($(1)_package_release),$$($(1)_package_arch))
+$(1)_spec_dir := $(1)
+$(1)_package_name := $(2)
+$(1)_built_package_name := $(3)
+$(1)_package_version := $(4)
+$(1)_package_release := $(5)
+$(1)_package_arch := $(6)
+$(1)_rpm_target_dir := $(call rpm_target_dir,$$($(1)_spec_dir))
+$(1)_rpm_target := $(call rpm_target,$$($(1)_spec_dir))
 
-$$($(1)_rpm_target): $$($(1)_package_name)/$$($(1)_package_name).spec
-	$(FEDPKG) $(FEDPKG_FLAGS) --path ./$$($(1)_package_name)/ --release f$(FEDORA_RELEASE) mockbuild $(MOCKBUILD_FLAGS)
-	shopt -s nullglob; $(RPM) --addsign $$($(1)_package_name)/results_$$($(1)_package_name)/$$($(1)_package_version)/$$($(1)_package_release).fc$(FEDORA_RELEASE)/*-$$($(1)_package_version)-$$($(1)_package_release).fc$(FEDORA_RELEASE).*.rpm
+$$($(1)_rpm_target): $$($(1)_spec_dir)/$$($(1)_package_name).spec
+	$(FEDPKG) $(FEDPKG_FLAGS) --path ./$$($(1)_spec_dir)/ --release f$(FEDORA_RELEASE) mockbuild $(MOCKBUILD_FLAGS)
+	shopt -s nullglob; $(RPM) --addsign $$($(1)_rpm_target_dir)/*-$$($(1)_package_version)-$$($(1)_package_release).fc$(FEDORA_RELEASE).*.rpm
 
-$$($(1)_package_name)/$$($(1)_package_name).spec: $(wildcard $$($(1)_package_name)/*.patch)
+$$($(1)_spec_dir)/$$($(1)_package_name).spec: $(wildcard $$($(1)_spec_dir)/*.patch)
 
-build-$$($(1)_package_name): $$($(1)_rpm_target)
-.PHONY: build-$$($(1)_package_name)
+build-$$($(1)_spec_dir): $$($(1)_rpm_target)
+.PHONY: build-$$($(1)_spec_dir)
+
+build-all: build-$$($(1)_spec_dir)
 endef
 
-$(foreach package,$(PACKAGES),$(package))
+define publish_template
+publish-$$($(1)_spec_dir): $$($(1)_rpm_target)
+	$(FORGEJO_PUBLISH)$($(1)_rpm_target) $(FORGEJO_UPLOAD_PATH)
+.PHONY: publish-$$($(1)_spec_dir)
+endef
+
+$(eval $(PACKAGES))
+$(eval $(PUBLISH_TARGETS))

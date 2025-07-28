@@ -5,8 +5,8 @@
 %global cargo_install_lib 0
 
 # Overriding dependency generators is discouraged, but I don't see any other way to get that config into cargo2rpm
-%global __cargo_provides /usr/bin/env CARGO_REGISTRIES_MSCHAE23_INDEX="sparse+https://mschae23.de/git/api/packages/mschae23/cargo/" /usr/bin/cargo2rpm provides --subpackage --feature=%{name}
-%global __cargo_requires /usr/bin/env CARGO_REGISTRIES_MSCHAE23_INDEX="sparse+https://mschae23.de/git/api/packages/mschae23/cargo/" /usr/bin/cargo2rpm requires --subpackage --feature=%{name}
+%global __cargo_provides /usr/bin/env CARGO_REGISTRIES_MSCHAE23_INDEX="sparse+https://code.mschae23.de/api/packages/mschae23/cargo/" /usr/bin/cargo2rpm provides --subpackage --feature=%{name}
+%global __cargo_requires /usr/bin/env CARGO_REGISTRIES_MSCHAE23_INDEX="sparse+https://code.mschae23.de/api/packages/mschae23/cargo/" /usr/bin/cargo2rpm requires --subpackage --feature=%{name}
 
 Name:           dearrow-cli
 Version:        4.3.0
@@ -38,9 +38,9 @@ A CLI program to view and vote for DeArrow submissions.}
 %cargo_prep
 %{__cat} >> .cargo/config.toml << EOF
 [registries.mschae23]
-index = "sparse+https://mschae23.de/git/api/packages/mschae23/cargo/"
+index = "sparse+https://code.mschae23.de/api/packages/mschae23/cargo/"
 [source.mschae23]
-registry = "sparse+https://mschae23.de/git/api/packages/mschae23/cargo/"
+registry = "sparse+https://code.mschae23.de/api/packages/mschae23/cargo/"
 replace-with = "local-registry"
 EOF
 

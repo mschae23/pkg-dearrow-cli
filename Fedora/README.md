@@ -1,5 +1,5 @@
 ## DeArrow CLI packaging for RPM
-This directory contains the specfiles needed to build [dearrow-cli](https://mschae23.de/git/mschae23/dearrow-cli)
+This directory contains the specfiles needed to build [dearrow-cli](https://code.mschae23.de/mschae23/dearrow-cli)
 and some of its dependencies for Fedora.
 
 If you want to build them yourself and you are not publishing them in your own RPM repository,
