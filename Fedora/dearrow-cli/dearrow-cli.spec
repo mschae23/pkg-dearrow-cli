@@ -38,9 +38,9 @@ A CLI program to view and vote for DeArrow submissions.}
 %cargo_prep
 %{__cat} >> .cargo/config.toml << EOF
 [registries.mschae23]
-index = "sparse+https://code.mschae23.de/api/packages/mschae23/cargo/"
+index = "sparse+https://pkg.mschae23.de/cargo/"
 [source.mschae23]
-registry = "sparse+https://code.mschae23.de/api/packages/mschae23/cargo/"
+registry = "sparse+https://pkg.mschae23.de/cargo/"
 replace-with = "local-registry"
 EOF
 

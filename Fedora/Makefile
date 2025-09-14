@@ -21,7 +21,7 @@ FORGEJO_UPLOAD_PATH=$(FORGEJO_API_ROOT)/api/packages/$(FORGEJO_PACKAGE_USER)/rpm
 FORGEJO_SOURCE_UPLOAD_PATH=$(FORGEJO_API_ROOT)/api/packages/$(FORGEJO_PACKAGE_USER)/rpm/fc$(FEDORA_RELEASE)-source/upload
 
 define PACKAGES
-$(eval $(call package_template,mschae23-repos,mschae23-repos,mschae23-repos,42,1,noarch))\
+$(eval $(call package_template,mschae23-repos,mschae23-repos,mschae23-repos,$(FEDORA_RELEASE),2,noarch))\
 $(eval $(call package_template,rust-dearrow-browser,rust-dearrow-browser,rust-dearrow-browser-api-devel,1.14.0,2,noarch))\
 $(eval $(call package_template,rust-tabled_derive,rust-tabled_derive,rust-tabled_derive-devel,0.11.0,1,noarch))\
 $(eval $(call package_template,rust-testing_table,rust-testing_table,rust-testing_table-devel,0.3.0,1,noarch))\
@@ -90,35 +90,35 @@ endef
 
 ## Everything below is generic
 
-rpm_target_dir = $(1)/results_$$($(1)_package_name)/$$($(1)_package_version)/$$($(1)_package_release).fc$(FEDORA_RELEASE)
-rpm_target = $(call rpm_target_dir,$(1))/$$($(1)_built_package_name)-$$($(1)_package_version)-$$($(1)_package_release).fc$(FEDORA_RELEASE).$$($(1)_package_arch).rpm
+rpm_target_dir = $1/results_$$($1_package_name)/$$($1_package_version)/$$($1_package_release).fc$(FEDORA_RELEASE)
+rpm_target = $(call rpm_target_dir,$1)/$$($1_built_package_name)-$$($1_package_version)-$$($1_package_release).fc$(FEDORA_RELEASE).$$($1_package_arch).rpm
 
 define package_template
-$(1)_spec_dir := $(1)
-$(1)_package_name := $(2)
-$(1)_built_package_name := $(3)
-$(1)_package_version := $(4)
-$(1)_package_release := $(5)
-$(1)_package_arch := $(6)
-$(1)_rpm_target_dir := $(call rpm_target_dir,$$($(1)_spec_dir))
-$(1)_rpm_target := $(call rpm_target,$$($(1)_spec_dir))
+$1_spec_dir := $1
+$1_package_name := $2
+$1_built_package_name := $3
+$1_package_version := $4
+$1_package_release := $5
+$1_package_arch := $6
+$1_rpm_target_dir := $(call rpm_target_dir,$$($1_spec_dir))
+$1_rpm_target := $(call rpm_target,$$($1_spec_dir))
 
-$$($(1)_rpm_target): $$($(1)_spec_dir)/$$($(1)_package_name).spec
-	$(FEDPKG) $(FEDPKG_FLAGS) --path ./$$($(1)_spec_dir)/ --release f$(FEDORA_RELEASE) mockbuild $(MOCKBUILD_FLAGS)
-	shopt -s nullglob; $(RPM) --addsign $$($(1)_rpm_target_dir)/*-$$($(1)_package_version)-$$($(1)_package_release).fc$(FEDORA_RELEASE).*.rpm
+$$($1_rpm_target): $$($1_spec_dir)/$$($1_package_name).spec
+	$(FEDPKG) $(FEDPKG_FLAGS) --path ./$$($1_spec_dir)/ --release f$(FEDORA_RELEASE) mockbuild $(MOCKBUILD_FLAGS)
+	shopt -s nullglob; $(RPM) --addsign $$($1_rpm_target_dir)/*-$$($1_package_version)-$$($1_package_release).fc$(FEDORA_RELEASE).*.rpm
 
-$$($(1)_spec_dir)/$$($(1)_package_name).spec: $(wildcard $$($(1)_spec_dir)/*.patch)
+$$($1_spec_dir)/$$($1_package_name).spec: $(wildcard $$($1_spec_dir)/*.patch)
 
-build-$$($(1)_spec_dir): $$($(1)_rpm_target)
-.PHONY: build-$$($(1)_spec_dir)
+build-$$($1_spec_dir): $$($1_rpm_target)
+.PHONY: build-$$($1_spec_dir)
 
-build-all: build-$$($(1)_spec_dir)
+build-all: build-$$($1_spec_dir)
 endef
 
 define publish_template
-publish-$$($(1)_spec_dir): $$($(1)_rpm_target)
-	$(FORGEJO_PUBLISH)$($(1)_rpm_target) $(FORGEJO_UPLOAD_PATH)
-.PHONY: publish-$$($(1)_spec_dir)
+publish-$$($1_spec_dir): $$($1_rpm_target)
+	$(FORGEJO_PUBLISH)$($1_rpm_target) $(FORGEJO_UPLOAD_PATH)
+.PHONY: publish-$$($1_spec_dir)
 endef
 
 $(eval $(PACKAGES))
