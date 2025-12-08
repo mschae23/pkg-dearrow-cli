@@ -5,8 +5,8 @@
 %global cargo_install_lib 0
 
 # Overriding dependency generators is discouraged, but I don't see any other way to get that config into cargo2rpm
-%global __cargo_provides /usr/bin/env CARGO_REGISTRIES_MSCHAE23_INDEX="sparse+https://code.mschae23.de/api/packages/mschae23/cargo/" /usr/bin/cargo2rpm provides --subpackage --feature=%{name}
-%global __cargo_requires /usr/bin/env CARGO_REGISTRIES_MSCHAE23_INDEX="sparse+https://code.mschae23.de/api/packages/mschae23/cargo/" /usr/bin/cargo2rpm requires --subpackage --feature=%{name}
+%global __cargo_provides /usr/bin/env CARGO_REGISTRIES_MSCHAE23_INDEX="sparse+https://pkg.mschae23.de/cargo/" /usr/bin/cargo2rpm provides --subpackage --feature=%{name}
+%global __cargo_requires /usr/bin/env CARGO_REGISTRIES_MSCHAE23_INDEX="sparse+https://pkg.mschae23.de/cargo/" /usr/bin/cargo2rpm requires --subpackage --feature=%{name}
 
 Name:           dearrow-cli
 Version:        4.3.0

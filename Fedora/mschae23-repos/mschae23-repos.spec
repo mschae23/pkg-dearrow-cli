@@ -1,6 +1,6 @@
 Name:           mschae23-repos
-Version:        42
-Release:        2%{?dist}
+Version:        43
+Release:        1%{?dist}
 Summary:        mschae23 package repositories
 
 License:        MIT
@@ -24,6 +24,9 @@ install -D -p -m 0644 -t %{buildroot}%{_sysconfdir}/yum.repos.d %{SOURCE0}
 %config(noreplace) %{_sysconfdir}/yum.repos.d/mschae23.repo
 
 %changelog
+* Mon Dec 08 2025 mschae23 <pkg@mschae23.de> - 43-1
+- Rebuild for Fedora 43
+
 * Sun Sep 14 2025 mschae23 <pkg@mschae23.de> - 42-2
 - Update repository URLs
 
@@ -35,4 +38,3 @@ install -D -p -m 0644 -t %{buildroot}%{_sysconfdir}/yum.repos.d %{SOURCE0}
 
 * Mon Nov 25 2024 mschae23 <pkg@mschae23.de> - 41-1
 - Initial package
-

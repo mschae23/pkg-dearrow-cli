@@ -1,4 +1,4 @@
-FEDORA_RELEASE=42
+FEDORA_RELEASE=43
 FEDORA_ARCH=x86_64
 
 FEDPKG=fedpkg
@@ -11,17 +11,16 @@ build-all:
 FEDPKG_FLAGS=
 MOCKBUILD_FLAGS=
 
-FORGEJO_PACKAGE_USER=mschae23
-FORGEJO_USERNAME=$(FORGEJO_PACKAGE_USER)
+FORGEJO_USERNAME=mschae23
 # FORGEJO_PUBLISH_FLAG=--upload-file #
 FORGEJO_PUBLISH_FLAG=-X PUT -F upload=@
 FORGEJO_PUBLISH={ echo -n 'user = "$(FORGEJO_USERNAME):'; cat $(FORGEJO_PASSWORD_FILE); echo '"'; } | $(CURL) -K - -w '\n' $(FORGEJO_PUBLISH_FLAG)
-FORGEJO_API_ROOT=https://code.mschae23.de
-FORGEJO_UPLOAD_PATH=$(FORGEJO_API_ROOT)/api/packages/$(FORGEJO_PACKAGE_USER)/rpm/fc$(FEDORA_RELEASE)/upload
-FORGEJO_SOURCE_UPLOAD_PATH=$(FORGEJO_API_ROOT)/api/packages/$(FORGEJO_PACKAGE_USER)/rpm/fc$(FEDORA_RELEASE)-source/upload
+FORGEJO_API_ROOT=https://pkg.mschae23.de/rpm
+FORGEJO_UPLOAD_PATH=$(FORGEJO_API_ROOT)/fc$(FEDORA_RELEASE)/upload
+FORGEJO_SOURCE_UPLOAD_PATH=$(FORGEJO_API_ROOT)/fc$(FEDORA_RELEASE)-source/upload
 
 define PACKAGES
-$(eval $(call package_template,mschae23-repos,mschae23-repos,mschae23-repos,$(FEDORA_RELEASE),2,noarch))\
+$(eval $(call package_template,mschae23-repos,mschae23-repos,mschae23-repos,$(FEDORA_RELEASE),1,noarch))\
 $(eval $(call package_template,rust-dearrow-browser,rust-dearrow-browser,rust-dearrow-browser-api-devel,1.14.0,2,noarch))\
 $(eval $(call package_template,rust-tabled_derive,rust-tabled_derive,rust-tabled_derive-devel,0.11.0,1,noarch))\
 $(eval $(call package_template,rust-testing_table,rust-testing_table,rust-testing_table-devel,0.3.0,1,noarch))\
