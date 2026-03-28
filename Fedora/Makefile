@@ -1,4 +1,4 @@
-FEDORA_RELEASE=43
+FEDORA_RELEASE=44
 FEDORA_ARCH=x86_64
 
 FEDPKG=fedpkg
@@ -24,8 +24,8 @@ $(eval $(call package_template,mschae23-repos,mschae23-repos,mschae23-repos,$(FE
 $(eval $(call package_template,rust-dearrow-browser,rust-dearrow-browser,rust-dearrow-browser-api-devel,1.14.0,2,noarch))\
 $(eval $(call package_template,rust-tabled_derive,rust-tabled_derive,rust-tabled_derive-devel,0.11.0,1,noarch))\
 $(eval $(call package_template,rust-testing_table,rust-testing_table,rust-testing_table-devel,0.3.0,1,noarch))\
-$(eval $(call package_template,rust-papergrid,rust-papergrid,rust-papergrid-devel,0.15.0,1,noarch))\
-$(eval $(call package_template,rust-tabled,rust-tabled,rust-tabled-devel,0.19.0,1,noarch))\
+$(eval $(call package_template,rust-papergrid,rust-papergrid,rust-papergrid-devel,0.17.0,1,noarch))\
+$(eval $(call package_template,rust-tabled,rust-tabled,rust-tabled-devel,0.20.0,1,noarch))\
 $(eval $(call package_template,dearrow-cli,dearrow-cli,dearrow-cli,4.3.0,3,$(FEDORA_ARCH)))
 endef
 
@@ -66,7 +66,7 @@ publish-rust-papergrid: build-rust-papergrid
 	$(FORGEJO_PUBLISH)$(rust-papergrid_rpm_target_dir)/rust-papergrid+ansi-devel-$(rust-papergrid_package_version)-$(rust-papergrid_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
 	$(FORGEJO_PUBLISH)$(rust-papergrid_rpm_target_dir)/rust-papergrid+ansi-str-devel-$(rust-papergrid_package_version)-$(rust-papergrid_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
 	$(FORGEJO_PUBLISH)$(rust-papergrid_rpm_target_dir)/rust-papergrid+ansitok-devel-$(rust-papergrid_package_version)-$(rust-papergrid_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
-	$(FORGEJO_PUBLISH)$(rust-papergrid_rpm_target_dir)/rust-papergrid+ahash-devel-$(rust-papergrid_package_version)-$(rust-papergrid_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
+	$(FORGEJO_PUBLISH)$(rust-papergrid_rpm_target_dir)/rust-papergrid+fnv-devel-$(rust-papergrid_package_version)-$(rust-papergrid_package_release).fc$(FEDORA_RELEASE).noarch.rpm $(FORGEJO_UPLOAD_PATH)
 .PHONY: publish-rust-papergrid
 
 publish-rust-testing_table: build-rust-testing_table

@@ -5,7 +5,7 @@
 %global crate papergrid
 
 Name:           rust-papergrid
-Version:        0.15.0
+Version:        0.17.0
 Release:        1%{?dist}
 Summary:        Papergrid is a core library to print a table
 
@@ -99,16 +99,16 @@ use the "ansitok" feature of the "%{crate}" crate.
 %files       -n %{name}+ansitok-devel
 %ghost %{crate_instdir}/Cargo.toml
 
-%package     -n %{name}+ahash-devel
+%package     -n %{name}+fnv-devel
 Summary:        %{summary}
 BuildArch:      noarch
 
-%description -n %{name}+ahash-devel %{_description}
+%description -n %{name}+fnv-devel %{_description}
 
 This package contains library source intended for building other packages which
-use the "ahash" feature of the "%{crate}" crate.
+use the "fnv" feature of the "%{crate}" crate.
 
-%files       -n %{name}+ahash-devel
+%files       -n %{name}+fnv-devel
 %ghost %{crate_instdir}/Cargo.toml
 
 %prep
@@ -130,5 +130,8 @@ use the "ahash" feature of the "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Mar 28 2026 mschae23 <pkg@mschae23.de> - 0.17.0-1
+- Update to 0.17.0
+
 * Mon May 05 2025 mschae23 <pkg@mschae23.de> - 0.15.0-1
 - Initial package

@@ -1,5 +1,5 @@
 Name:           mschae23-repos
-Version:        43
+Version:        44
 Release:        1%{?dist}
 Summary:        mschae23 package repositories
 
@@ -24,6 +24,9 @@ install -D -p -m 0644 -t %{buildroot}%{_sysconfdir}/yum.repos.d %{SOURCE0}
 %config(noreplace) %{_sysconfdir}/yum.repos.d/mschae23.repo
 
 %changelog
+* Sat Mar 28 2026 mschae23 <pkg@mschae23.de> - 44-1
+- Rebuild for Fedora 44
+
 * Mon Dec 08 2025 mschae23 <pkg@mschae23.de> - 43-1
 - Rebuild for Fedora 43
 

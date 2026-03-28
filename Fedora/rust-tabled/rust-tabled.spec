@@ -5,7 +5,7 @@
 %global crate tabled
 
 Name:           rust-tabled
-Version:        0.19.0
+Version:        0.20.0
 Release:        1%{?dist}
 Summary:        An easy to use library for pretty print tables of Rust `struct`s and `enum`s
 
@@ -177,6 +177,9 @@ use the "testing_table" feature of the "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Mar 28 2026 mschae23 <pkg@mschae23.de> - 0.20.0-1
+- Update to 0.20.0
+
 * Mon May 05 2025 mschae23 <pkg@mschae23.de> - 0.19.0-1
 - Update to 0.19.0
 
